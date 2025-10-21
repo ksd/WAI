@@ -11,12 +11,19 @@ import SwiftUI
 import MapKit
 
 struct ContentView: View {
+    @Environment(LocationManager.self) var locationManager
     var body: some View {
+
         Map()
             .edgesIgnoringSafeArea(.all)
+            .overlay {
+                Text(
+                    "location: \(locationManager.userLocation?.coordinate.latitude ?? 0)"
+                )
+            }
     }
 }
 
 #Preview {
-    ContentView()
+    ContentView().environment(LocationManager())
 }

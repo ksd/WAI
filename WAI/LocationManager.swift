@@ -15,10 +15,36 @@ import CoreLocation
 class LocationManager: NSObject {
 
     var userLocation: CLLocation?
-    var locationManager: CLLocationManager?
+    private var locationManager = CLLocationManager()
+
+    override init(){
+        super.init()
+        locationManager.delegate = self
+    }
 
 }
 
 extension LocationManager: CLLocationManagerDelegate {
 
+    func locationManager(
+        _ manager: CLLocationManager,
+        didUpdateLocations locations: [CLLocation]
+    ) {
+        userLocation = locations.last
+    }
+
+    func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
+
+        switch locationManager.authorizationStatus {
+                
+            case .notDetermined:
+                locationManager.requestWhenInUseAuthorization()
+            case .restricted, .denied, .authorizedAlways:
+                print("Ha ha")
+            case .authorizedWhenInUse:
+                locationManager.startUpdatingLocation()
+            @unknown default:
+                fatalError()
+        }
+    }
 }
