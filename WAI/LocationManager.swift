@@ -9,7 +9,7 @@
 
 
 import Foundation
-import CoreLocation
+import MapKit
 
 @Observable
 class LocationManager: NSObject {
@@ -21,7 +21,6 @@ class LocationManager: NSObject {
         super.init()
         locationManager.delegate = self
     }
-
 }
 
 extension LocationManager: CLLocationManagerDelegate {
@@ -36,7 +35,6 @@ extension LocationManager: CLLocationManagerDelegate {
     func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
 
         switch locationManager.authorizationStatus {
-                
             case .notDetermined:
                 locationManager.requestWhenInUseAuthorization()
             case .restricted, .denied, .authorizedAlways:
